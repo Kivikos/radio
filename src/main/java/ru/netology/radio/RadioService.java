@@ -25,7 +25,7 @@ public class RadioService {
 
     public void prevStation() {
         if (currentStation <= 9) this.currentStation--;
-        if (currentStation < 0) this.currentStation = 0;
+        if (currentStation < 0) this.currentStation = 9;
     }
 
     public void setCurrentVolume(int currentVolume) {
@@ -36,7 +36,6 @@ public class RadioService {
 
     public void increaseVolume() {
         if (currentVolume < 10) this.currentVolume++;
-        if (currentVolume > 10) this.currentVolume = 10;
     }
 
     public void decreaseVolume() {

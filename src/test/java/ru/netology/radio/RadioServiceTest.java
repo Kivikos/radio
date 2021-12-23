@@ -7,12 +7,12 @@ import static org.junit.jupiter.api.Assertions.*;
 class RadioServiceTest {
 
     @Test
-    public void  test() {
+    public void shouldSetStation() {
         RadioService service = new RadioService();
 
-        service.setCurrentStation(1);
+        service.setCurrentStation(10);
 
-        int expected = 1;
+        int expected = 0;
         int actual = service.getCurrentStation();
 
         assertEquals(expected, actual);
@@ -22,10 +22,10 @@ class RadioServiceTest {
     public void shouldSetToNextStation () {
         RadioService service = new RadioService();
 
-        service.setCurrentStation(9);
+        service.setCurrentStation(1);
         service.nextStation();
 
-        int expected = 0;
+        int expected = 2;
         int actual = service.getCurrentStation();
 
         assertEquals(expected, actual);
@@ -39,7 +39,7 @@ class RadioServiceTest {
         service.setCurrentStation(0);
         service.prevStation();
 
-        int expected = 0;
+        int expected = 9;
         int actual = service.getCurrentStation();
 
         assertEquals(expected, actual);
@@ -50,7 +50,7 @@ class RadioServiceTest {
     public void shouldSetVolume() {
         RadioService service = new RadioService();
 
-        service.setCurrentVolume(11);
+        service.setCurrentVolume(15);
 
         int expected = 0;
         int actual = service.getCurrentVolume();
@@ -62,7 +62,7 @@ class RadioServiceTest {
     public void shouldIncreaseVolume() {
         RadioService service = new RadioService();
 
-        service.setCurrentVolume(12);
+        service.setCurrentVolume(10);
         service.increaseVolume();
 
         int expected = 10;
@@ -75,10 +75,10 @@ class RadioServiceTest {
     public void shouldDecreaseVolume() {
         RadioService service = new RadioService();
 
-        service.setCurrentVolume(10);
+        service.setCurrentVolume(1);
         service.decreaseVolume();
 
-        int expected = 9;
+        int expected = 0;
         int actual = service.getCurrentVolume();
 
         assertEquals(expected, actual);

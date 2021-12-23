@@ -12,24 +12,34 @@ public class RadioService {
         return currentVolume;
     }
 
-    public void setCurrentStation (int currentStation) {
+    public void setCurrentStation(int currentStation) {
         if (currentStation < 0) return;
         if (currentStation > 9) return;
         this.currentStation = currentStation;
     }
 
-    public void setToNextStation () {
+    public void nextStation() {
         if (currentStation >= -1) this.currentStation++;
         if (currentStation > 9) this.currentStation = 0;
     }
 
-    public void setToPrevStation () {
+    public void prevStation() {
         if (currentStation <= 9) this.currentStation--;
         if (currentStation < 0) this.currentStation = 0;
     }
 
     public void setCurrentVolume(int currentVolume) {
-        if (currentVolume >= 0 & currentVolume <= 10) this.currentVolume = currentVolume;
-        else return;
+        if (currentVolume < 0) return;
+        if (currentVolume > 10) return;
+        this.currentVolume = currentVolume;
+    }
+
+    public void increaseVolume() {
+        if (currentVolume < 10) this.currentVolume++;
+        if (currentVolume > 10) this.currentVolume = 10;
+    }
+
+    public void decreaseVolume() {
+        if(currentVolume > 0) this.currentVolume--;
     }
 }

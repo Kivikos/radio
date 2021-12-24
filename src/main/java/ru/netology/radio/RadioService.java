@@ -19,13 +19,15 @@ public class RadioService {
     }
 
     public void nextStation() {
-        if (currentStation >= -1) this.currentStation++;
-        if (currentStation > 9) this.currentStation = 0;
+        if (currentStation == 9 ) this.currentStation = 0;
+        else this.currentStation++;
     }
 
     public void prevStation() {
-        if (currentStation <= 9) this.currentStation--;
-        if (currentStation < 0) this.currentStation = 9;
+        if (currentStation == 0) this.currentStation = 9;
+        else this.currentStation--;
+/*        if (currentStation <= 9) this.currentStation--;
+        if (currentStation < 0) this.currentStation = 9;*/
     }
 
     public void setCurrentVolume(int currentVolume) {

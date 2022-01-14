@@ -11,8 +11,8 @@ class RadioServiceTest {
     @Test
     void shouldSetStationNumberNormally() {
         RadioService service = new RadioService((short) 10);
-        service.setStationsNumber((short) 1);
-        assertEquals(1, service.getStationsNumber());
+        service.setStationsNumber((short) 3);
+        assertEquals(3, service.getStationsNumber());
     }
 
     @Test
@@ -30,25 +30,25 @@ class RadioServiceTest {
     }
 
     @Test
-    void shouldSpecifyStationWithDefaultQuantityPositive() {
+    void shouldSetStationWithNumberInLimit() {
         service.setStation(5);
         assertEquals(5, service.getStation());
     }
 
     @Test
-    void shouldSpecifyStationWithDefaultQuantityNegative() {
+    void shouldSetStationWithNumberOverLimit() {
         service.setStation(11);
         assertEquals(0, service.getStation());
     }
 
     @Test
-    void shouldSpecifyStationWithDefaultQuantityNegative2() {
+    void shouldSetStationWithNumberUnderLimit() {
         service.setStation(-1);
         assertEquals(0, service.getStation());
     }
 
     @Test
-    void shouldSpecifyStationWithCustomQuantityPositive() {
+    void shouldSetStationWithNumberPositiveScenario() {
         RadioService service = new RadioService((short) 10);
         service.setStationsNumber((short) 6);
         service.setStation(3);
@@ -56,45 +56,63 @@ class RadioServiceTest {
     }
 
     @Test
-    void shouldSpecifyStationWithCustomQuantityNegative() {
+    void shouldSetStationWithDefaultNumberNegativeScenario1() {
         RadioService service = new RadioService((short) 10);
-        service.setStationsNumber((short) 6);
-        service.setStation(11);
+        service.setStationsNumber((short) 8);
+        service.setStation(9);
         assertEquals(0, service.getStation());
     }
 
     @Test
-    void shouldSpecifyStationWithCustomQuantityNegative2() {
+    void shouldSetStationWithDefaultNumberNegativeScenario2() {
         RadioService service = new RadioService((short) 10);
-        service.setStationsNumber((short) 6);
+        service.setStationsNumber((short) 7);
         service.setStation(-1);
         assertEquals(0, service.getStation());
     }
 
     @Test
-    void shouldSwitchStationToMinLimit() {
-        RadioService service = new RadioService("WhenMaxLimit", 10);
+    void shouldSetToNextStationNormally() {
+            RadioService service = new RadioService("NextStation", 4);
+            service.nextStation();
+            assertEquals(5, service.getStation());
+        }
+
+    @Test
+     void shouldSwitchStationToFirstWhenMax() {
+        RadioService service = new RadioService("WhenNearMaxLimit", 10);
         service.nextStation();
         assertEquals(0, service.getStation());
     }
 
+
     @Test
-    void shouldSwitchStationToMaxLimit() {
-        RadioService service = new RadioService("WhenMinLimit", 0);
+    void shouldSwitchStationToLastWhenFirst() {
+        RadioService service = new RadioService("WhenNearMinLimit", 1);
+        service.prevStation();
         service.prevStation();
         assertEquals(10, service.getStation());
     }
 
     @Test
-    void shouldIncreaseVolumeWhenMax() {
-        RadioService service = new RadioService(100);
+    void shouldDecreaseVolumeNormally() {
+        RadioService service = new RadioService(55);
+        service.decreaseVolume();
+        assertEquals(54, service.getVolume());
+    }
+
+    @Test
+    void shouldIncreaseVolumeWhenNearMax() {
+        RadioService service = new RadioService(99);
+        service.increaseVolume();
         service.increaseVolume();
         assertEquals(100, service.getVolume());
     }
 
     @Test
-    void shouldDecreaseVolumeWhenMin() {
+    void shouldDecreaseVolumeWhenNearMin() {
         RadioService service = new RadioService(0);
+        service.decreaseVolume();
         service.decreaseVolume();
         assertEquals(0, service.getVolume());
     }

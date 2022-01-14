@@ -71,7 +71,7 @@ public class RadioService {
             setStation(0);
             return;
         }
-        setStation(station++);
+        setStation(++station);
     }
 
     public void prevStation() {
@@ -79,20 +79,20 @@ public class RadioService {
             setStation(stationsNumber);
             return;
         }
-        setStation(station--);
+        setStation(--station);
     }
 
     public void increaseVolume() {
         if (volume == 100) {
             return;
         }
-        setVolume(volume++);
+        setVolume(++volume);
     }
 
     public void decreaseVolume() {
         if (volume == 0) {
             return;
         }
-        setVolume(volume--);
+        setVolume(--volume);
     }
 }

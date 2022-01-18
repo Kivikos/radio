@@ -103,10 +103,60 @@ class RadioServiceTest {
     }
 
     @Test
-    void shouldSwitchStationToLastWhenFirst1() {
+    void shouldSwitchStationToLastWhenMin() {
         RadioService service = new RadioService((short) 7);
         service.setCurrentStation(0);
         service.prevStation();
         assertEquals(7, service.getCurrentStation());
+    }
+
+    @Test
+    void shouldSetVolumeNormally() {
+        service.setCurrentVolume(55);
+        assertEquals(55, service.getCurrentVolume());
+    }
+
+    @Test
+    void shouldSetVolumeNotNormally1() {
+        service.setCurrentVolume(101);
+        assertEquals(0, service.getCurrentVolume());
+    }
+
+    @Test
+    void shouldSetVolumeNotNormally2() {
+        service.setCurrentVolume(-101);
+        assertEquals(0, service.getCurrentVolume());
+    }
+
+    @Test
+    public void shouldIncreaseVolume() {
+        service.setCurrentVolume(5);
+        service.increaseVolume();
+        int actual = service.getCurrentVolume();
+        assertEquals(6, actual);
+    }
+
+    @Test
+    public void shouldIncreaseVolumeOverLimit() {
+        service.setCurrentVolume(100);
+        service.increaseVolume();
+        int actual = service.getCurrentVolume();
+        assertEquals(100, actual);
+    }
+
+    @Test
+    public void shouldDecreaseVolume() {
+        service.setCurrentVolume(99);
+        service.decreaseVolume();
+        int actual = service.getCurrentVolume();
+        assertEquals(98, actual);
+    }
+
+    @Test
+    public void shouldDecreaseVolumeUnderLimit() {
+        service.setCurrentVolume(0);
+        service.decreaseVolume();
+        int actual = service.getCurrentVolume();
+        assertEquals(0, actual);
     }
 }

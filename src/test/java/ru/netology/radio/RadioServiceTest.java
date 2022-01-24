@@ -6,157 +6,137 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class RadioServiceTest {
 
-    RadioService service = new RadioService();
-
     @Test
-    void shouldUseConstructor() {
-        RadioService service = new RadioService((short) 5);
-        assertEquals(5, service.getStationsNumber());
+    public void shouldSetCurrentStation() {
+        RadioService service = new RadioService(15);
+        service.setCurrentStation(7);
+        int expected = 7;
+        int actual = service.getCurrentStation();
+        assertEquals(expected, actual);
     }
 
     @Test
-    void shouldSetStationNumberNormally() {
-        RadioService service = new RadioService((short) 3);
-        assertEquals(3, service.getStationsNumber());
+    public void shouldSetCurrentStationWhenOutOfLimit() {
+        RadioService service = new RadioService(20);
+        service.setCurrentStation(21);
+        int expected = 0;
+        int actual = service.getCurrentStation();
+        assertEquals(expected, actual);
     }
 
     @Test
-    void shouldSetStationNumberNotNormally1() {
-        RadioService service = new RadioService((short) 11);
-        assertEquals(0, service.getStationsNumber());
+    public void shouldSetCurrentStationWhenUnderLimit() {
+        RadioService service = new RadioService(20);
+        service.setCurrentStation(-1);
+        int expected = 0;
+        int actual = service.getCurrentStation();
+        assertEquals(expected, actual);
     }
 
     @Test
-    void shouldSetStationNumberNotNormally2() {
-        RadioService service = new RadioService((short) -5);
-        assertEquals(0, service.getStationsNumber());
+    public void shouldSwitchToNextStation() {
+        RadioService service = new RadioService(20);
+        service.setCurrentStation(6);
+        service.nextStation();
+        int expected = 7;
+        int actual = service.getCurrentStation();
+        assertEquals(expected, actual);
     }
 
     @Test
-    void shouldSetStationWithNumberInLimit() {
-        RadioService service = new RadioService((short) 7);
+    public void shouldSwitchToNextStationWhenInMaxLimit() {
+        RadioService service = new RadioService(20);
+        service.setCurrentStation(19);
+        service.nextStation();
+        int expected = 0;
+        int actual = service.getCurrentStation();
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldSwitchToPrevStation() {
+        RadioService service = new RadioService(20);
         service.setCurrentStation(5);
-        assertEquals(5, service.getCurrentStation());
-    }
-
-    @Test
-    void shouldSetStationWithNumberOverLimit() {
-        RadioService service = new RadioService((short) 7);
-        service.setCurrentStation(8);
-        assertEquals(0, service.getCurrentStation());
-    }
-
-    @Test
-    void shouldSetStationWithNumberUnderLimit() {
-        RadioService service = new RadioService((short) 7);
-        service.setCurrentStation(-1);
-        assertEquals(0, service.getCurrentStation());
-    }
-
-    @Test
-    void shouldSetStationWithNumberPositiveScenario() {
-        RadioService service = new RadioService((short) 10);
-        service.setStationsNumber((short) 6);
-        service.setCurrentStation(3);
-        assertEquals(3, service.getCurrentStation());
-    }
-
-    @Test
-    void shouldSetStationWithDefaultNumberNegativeScenario1() {
-        RadioService service = new RadioService((short) 10);
-        service.setStationsNumber((short) 8);
-        service.setCurrentStation(9);
-        assertEquals(0, service.getCurrentStation());
-    }
-
-    @Test
-    void shouldSetStationWithDefaultNumberNegativeScenario2() {
-        RadioService service = new RadioService((short) 10);
-        service.setStationsNumber((short) 7);
-        service.setCurrentStation(-1);
-        assertEquals(0, service.getCurrentStation());
-    }
-
-    @Test
-    void shouldSetToNextStationNormally() {
-        RadioService service = new RadioService((short) 7);
-        service.setCurrentStation(4);
-        service.nextStation();
-        assertEquals(5, service.getCurrentStation());
-    }
-
-    @Test
-    void shouldSwitchStationToFirstWhenMax() {
-        RadioService service = new RadioService((short) 10);
-        service.nextStation();
-        assertEquals(0, service.getCurrentStation());
-    }
-
-
-    @Test
-    void shouldSwitchStationToLastWhenFirst() {
-        RadioService service = new RadioService((short) 5);
-        service.setCurrentStation(3);
         service.prevStation();
-        service.prevStation();
-        assertEquals(1, service.getCurrentStation());
+        int expected = 4;
+        int actual = service.getCurrentStation();
+        assertEquals(expected, actual);
     }
 
     @Test
-    void shouldSwitchStationToLastWhenMin() {
-        RadioService service = new RadioService((short) 7);
+    public void shouldSwitchToPrevStationWhenInMinLimit() {
+        RadioService service = new RadioService(20);
         service.setCurrentStation(0);
         service.prevStation();
-        assertEquals(7, service.getCurrentStation());
+        int expected = 19;
+        int actual = service.getCurrentStation();
+        assertEquals(expected, actual);
     }
 
     @Test
-    void shouldSetVolumeNormally() {
+    public void shouldSetCurrentVolume() {
+        RadioService service = new RadioService();
         service.setCurrentVolume(55);
-        assertEquals(55, service.getCurrentVolume());
-    }
-
-    @Test
-    void shouldSetVolumeNotNormally1() {
-        service.setCurrentVolume(101);
-        assertEquals(0, service.getCurrentVolume());
-    }
-
-    @Test
-    void shouldSetVolumeNotNormally2() {
-        service.setCurrentVolume(-101);
-        assertEquals(0, service.getCurrentVolume());
-    }
-
-    @Test
-    public void shouldIncreaseVolume() {
-        service.setCurrentVolume(5);
-        service.increaseVolume();
+        int expected = 55;
         int actual = service.getCurrentVolume();
-        assertEquals(6, actual);
+        assertEquals(expected, actual);
     }
 
     @Test
-    public void shouldIncreaseVolumeOverLimit() {
+    public void shouldSetCurrentVolumeOverLimit() {
+        RadioService service = new RadioService();
+        service.setCurrentVolume(101);
+        int expected = 0;
+        int actual = service.getCurrentVolume();
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldSetCurrentVolumeUnderLimit() {
+        RadioService service = new RadioService();
+        service.setCurrentVolume(-1);
+        int expected = 0;
+        int actual = service.getCurrentVolume();
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldSetVolumeUp() {
+        RadioService service = new RadioService();
+        service.setCurrentVolume(50);
+        service.increaseVolume();
+        int expected = 51;
+        int actual = service.getCurrentVolume();
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldSetVolumeUpWhenInMaxLimit() {
+        RadioService service = new RadioService();
         service.setCurrentVolume(100);
         service.increaseVolume();
+        int expected = 100;
         int actual = service.getCurrentVolume();
-        assertEquals(100, actual);
+        assertEquals(expected, actual);
     }
 
     @Test
-    public void shouldDecreaseVolume() {
-        service.setCurrentVolume(99);
+    public void shouldSetVolumeDown() {
+        RadioService service = new RadioService();
+        service.setCurrentVolume(76);
         service.decreaseVolume();
+        int expected = 75;
         int actual = service.getCurrentVolume();
-        assertEquals(98, actual);
+        assertEquals(expected, actual);
     }
 
     @Test
-    public void shouldDecreaseVolumeUnderLimit() {
+    public void shouldSetVolumeDownWhenInMinLimit() {
+        RadioService service = new RadioService();
         service.setCurrentVolume(0);
         service.decreaseVolume();
+        int expected = 0;
         int actual = service.getCurrentVolume();
-        assertEquals(0, actual);
+        assertEquals(expected, actual);
     }
 }
